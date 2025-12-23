@@ -3,10 +3,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-// Logic tambah Produk
+// ... logic addProduct tetap sama ...
 export async function addProduct(formData: FormData) {
   const supabase = await createClient()
-  
   const name = formData.get('name') as string
   const price = formData.get('price') as string
 
@@ -16,27 +15,25 @@ export async function addProduct(formData: FormData) {
     name,
     price: Number(price)
   })
-
-  // Refresh halaman agar data baru langsung muncul
   revalidatePath('/master')
 }
 
-// Logic tambah Warung (Outlet)
 export async function addOutlet(formData: FormData) {
   const supabase = await createClient()
   
   const name = formData.get('name') as string
+  const address = formData.get('address') as string 
 
   if (!name) return
 
   await supabase.from('outlets').insert({
-    name
+    name,
+    address
   })
 
   revalidatePath('/master')
 }
 
-// Logic Hapus Data 
 export async function deleteItem(id: string, table: 'products' | 'outlets') {
   const supabase = await createClient()
   await supabase.from(table).delete().eq('id', id)
