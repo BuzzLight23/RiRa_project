@@ -1,4 +1,4 @@
-// Tipe untuk Produk (Kerupuk/Kemplang)
+// Tipe untuk Produk
 export interface Product {
   id: string;
   name: string;
@@ -17,16 +17,15 @@ export interface Outlet {
 export interface IncomeTransaction {
   id: string;
   product_id: string;
-  outlet_id: string; // Sesuai koreksi kamu
+  outlet_id: string;
   quantity: number;
   total_amount: number;
   created_at: string;
   // Relasi (Join)
-  products?: Product; // Akan terisi jika kita join
-  outlets?: Outlet;   // Akan terisi jika kita join
+  products?: Product; 
+  outlets?: Outlet;   
 }
 
-// Tipe untuk Transaksi Keluar (Belanja Bahan)
 export interface ExpenseTransaction {
   id: string;
   description: string;

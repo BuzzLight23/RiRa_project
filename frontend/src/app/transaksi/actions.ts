@@ -20,7 +20,7 @@ export async function addIncome(formData: FormData) {
     .eq('id', product_id)
     .single()
 
-  if (!product) return // Jaga-jaga kalau produk gak ketemu
+  if (!product) return
 
   // 3. Hitung Total
   const total_amount = product.price * quantity
@@ -37,7 +37,7 @@ export async function addIncome(formData: FormData) {
   revalidatePath('/transaksi')
 }
 
-// Logic Hapus Transaksi (Kalau salah input)
+// Logic Hapus Transaksi
 export async function deleteTransaction(id: string) {
   const supabase = await createClient()
   await supabase.from('income_transactions').delete().eq('id', id)

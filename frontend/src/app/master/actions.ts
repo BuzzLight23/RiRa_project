@@ -36,7 +36,7 @@ export async function addOutlet(formData: FormData) {
   revalidatePath('/master')
 }
 
-// Logic Hapus Data (Opsional, buat jaga-jaga salah input)
+// Logic Hapus Data 
 export async function deleteItem(id: string, table: 'products' | 'outlets') {
   const supabase = await createClient()
   await supabase.from(table).delete().eq('id', id)
