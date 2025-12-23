@@ -13,11 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RiRa Finance - Sistem Keuangan",
-  description: "Aplikasi pencatatan keuangan usaha kerupuk kemplang RiRa",
-  icons: {
-    icon: '/icon.png',
-  },
+  title: "RiRa Finance",
+  description: "Sistem Informasi Keuangan Usaha RiRa",
 };
 
 export default function RootLayout({
@@ -26,9 +23,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="id">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50 text-slate-900`}
       >
         {children}
       </body>
