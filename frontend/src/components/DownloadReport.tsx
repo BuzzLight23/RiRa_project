@@ -10,7 +10,6 @@ interface Props {
 
 export default function DownloadReport({ incomeData, expenseData, period }: Props) {
   
-  // Logic Export Excel (CSV)
   const handleDownloadExcel = () => {
     const headers = ['Tanggal', 'Tipe', 'Keterangan', 'Lokasi/Warung', 'Jumlah (Rp)']
     
@@ -42,20 +41,19 @@ export default function DownloadReport({ incomeData, expenseData, period }: Prop
     document.body.removeChild(link)
   }
 
-  // Logic Export PDF (Via Print Browser)
   const handlePrintPDF = () => {
     window.print()
   }
 
   return (
     <div className="flex gap-2 print:hidden">
-      {/* Tombol PDF / Print */}
+      {/* Tombol PDF */}
       <button 
         onClick={handlePrintPDF}
-        className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-900 text-white text-sm font-medium rounded-lg transition shadow-sm"
+        className="flex items-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white text-sm font-medium rounded-lg transition shadow-sm"
         title="Cetak atau Simpan sebagai PDF"
       >
-        <Printer className="w-4 h-4" /> PDF / Cetak
+        <Printer className="w-4 h-4 text-yellow-400" /> PDF / Cetak
       </button>
 
       {/* Tombol Excel */}
