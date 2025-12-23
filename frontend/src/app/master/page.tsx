@@ -105,7 +105,7 @@ export default async function MasterPage() {
                 </span>
               </div>
               
-              <div className="p-4 space-y-3 max-h-[500px] overflow-y-auto custom-scrollbar">
+              <div className="p-4 space-y-3 max-h-125 overflow-y-auto custom-scrollbar">
                 {products?.length === 0 ? (
                   <div className="text-center py-10">
                     <Package className="w-12 h-12 mx-auto text-slate-200 mb-2" />
@@ -200,7 +200,7 @@ export default async function MasterPage() {
                 </span>
               </div>
               
-              <div className="p-4 space-y-3 max-h-[500px] overflow-y-auto custom-scrollbar">
+              <div className="p-4 space-y-3 max-h-125 overflow-y-auto custom-scrollbar">
                 {outlets?.length === 0 ? (
                   <div className="text-center py-10">
                     <Store className="w-12 h-12 mx-auto text-slate-200 mb-2" />

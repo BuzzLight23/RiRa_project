@@ -132,7 +132,7 @@ export default async function DashboardPage({
       </div>
 
       {/* === CONTENT UTAMA === */}
-      <main className="flex-grow px-6 py-8 print:p-0">
+      <main className="grow px-6 py-8 print:p-0">
         <div className="max-w-7xl mx-auto space-y-8">
           
           {/* 1. KARTU RINGKASAN (Summary Cards) */}
@@ -189,7 +189,7 @@ export default async function DashboardPage({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 print:grid-cols-1">
             
             {/* Tabel Penjualan */}
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-[500px] print:h-auto print:border-2">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-125 print:h-auto print:border-2">
               <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-emerald-600">
                   <TrendingUp className="w-5 h-5" />
@@ -244,7 +244,7 @@ export default async function DashboardPage({
             </div>
 
             {/* Tabel Pengeluaran */}
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-[500px] print:h-auto print:border-2">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-125 print:h-auto print:border-2">
               <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-rose-600">
                   <TrendingDown className="w-5 h-5" />

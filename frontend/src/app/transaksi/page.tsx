@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { addIncome, deleteTransaction } from './actions'
-import { Wallet, Store, Package, Calculator, Save, Trash2, History, Calendar, ArrowLeft } from 'lucide-react'
+import { Wallet, Store, Package, Calculator, Save, Trash2, History, Calendar, ArrowLeft, Search, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function TransactionPage() {
@@ -10,7 +10,7 @@ export default async function TransactionPage() {
   const { data: products } = await supabase.from('products').select('*').order('name')
   const { data: outlets } = await supabase.from('outlets').select('*').order('name')
 
-  // 2. Ambil Riwayat Transaksi (Limit 20)
+  // 2. Ambil Riwayat Transaksi (Limit 10 saja agar pas di layar)
   const { data: transactions } = await supabase
     .from('income_transactions')
     .select(`
@@ -19,168 +19,184 @@ export default async function TransactionPage() {
       outlets (name)
     `)
     .order('created_at', { ascending: false })
-    .limit(20)
+    .limit(10)
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-24">
+    <div className="min-h-screen bg-slate-50 pb-24 font-sans text-slate-900">
       
-      {/* HEADER */}
-      <div className="bg-slate-900 border-b border-slate-800 sticky top-0 z-20 shadow-md">
-        <div className="max-w-xl mx-auto px-4 py-4 flex items-center gap-4">
-          <Link href="/" className="p-2 -ml-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-full transition">
+      {/* === HEADER (Sekarang max-w-7xl agar sama dengan Dashboard) === */}
+      <div className="bg-slate-900 text-white shadow-md sticky top-0 z-50 border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-4">
+          <Link href="/" className="p-2 -ml-2 rounded-full hover:bg-slate-800 transition-colors text-slate-400 hover:text-white">
             <ArrowLeft className="w-6 h-6" />
           </Link>
           
-          <h1 className="text-xl font-bold text-white flex items-center gap-3">
-            <span className="bg-yellow-400 text-slate-900 p-1.5 rounded-lg shadow-lg shadow-yellow-400/20">
-              <Wallet className="w-5 h-5" />
-            </span>
-            Input Penjualan
-          </h1>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-yellow-400 rounded-xl flex items-center justify-center shadow-lg text-slate-900 shadow-yellow-400/20">
+              <Wallet className="w-6 h-6" />
+            </div>
+            <h1 className="text-xl font-bold tracking-wide">Input Penjualan</h1>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-xl mx-auto px-4 py-8 space-y-8">
-        
-        {/* === FORM INPUT CARD === */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div className="p-4 bg-blue-50 border-b border-blue-100 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-            <h2 className="font-bold text-blue-800 text-sm uppercase tracking-wide">
-              Form Penjualan
-            </h2>
-          </div>
+      {/* === MAIN CONTENT (Grid 2 Kolom) === */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
-          <div className="p-6">
-            <form action={addIncome} className="space-y-6">
+          {/* KOLOM KIRI: FORM INPUT */}
+          <section className="space-y-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+              <div className="bg-blue-50/50 px-6 py-4 border-b border-blue-100 flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></span>
+                <h2 className="text-blue-700 font-bold text-sm tracking-wider uppercase">Form Penjualan</h2>
+              </div>
               
-              {/* Field Warung */}
-              <div>
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2 block">Lokasi Warung</label>
-                <div className="relative group">
-                  <div className="absolute left-3 top-1/2 -translate-y-1/2 bg-slate-100 p-1.5 rounded-md group-focus-within:bg-blue-100 transition-colors">
-                    <Store className="w-4 h-4 text-slate-500 group-focus-within:text-blue-600 transition-colors" />
-                  </div>
-                  <select name="outlet_id" required className="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm appearance-none font-medium text-slate-700 transition-all">
-                    <option value="">Pilih Warung...</option>
-                    {outlets?.map(o => (
-                      <option key={o.id} value={o.id}>{o.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-5 gap-4">
-                {/* Field Produk */}
-                <div className="col-span-3">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2 block">Produk</label>
-                  <div className="relative group">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 bg-slate-100 p-1.5 rounded-md group-focus-within:bg-blue-100 transition-colors">
-                      <Package className="w-4 h-4 text-slate-500 group-focus-within:text-blue-600 transition-colors" />
-                    </div>
-                    <select name="product_id" required className="w-full pl-12 pr-8 py-3.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm appearance-none font-medium text-slate-700 transition-all">
-                      <option value="">Pilih...</option>
-                      {products?.map(p => (
-                        <option key={p.id} value={p.id}>{p.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* Field Jumlah */}
-                <div className="col-span-2">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2 block">Jml</label>
-                  <div className="relative group">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 bg-slate-100 p-1.5 rounded-md group-focus-within:bg-blue-100 transition-colors">
-                      <Calculator className="w-4 h-4 text-slate-500 group-focus-within:text-blue-600 transition-colors" />
-                    </div>
-                    <input 
-                      name="quantity" 
-                      type="number" 
-                      min="1" 
-                      placeholder="0" 
-                      required 
-                      className="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-bold text-slate-800 transition-all" 
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-600/20 active:scale-95 transition flex justify-center items-center gap-2 text-sm mt-2">
-                <Save className="w-5 h-5" /> Simpan Laporan
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* === DAFTAR RIWAYAT === */}
-        <div>
-          <h3 className="flex items-center gap-2 font-bold text-slate-800 mb-5 px-1 text-lg">
-            <History className="w-5 h-5 text-slate-400" /> Riwayat Terakhir
-          </h3>
-
-          <div className="flex flex-col gap-3">
-            {transactions?.length === 0 ? (
-              <div className="text-center py-12 bg-white rounded-2xl border-2 border-dashed border-slate-200">
-                <Package className="w-10 h-10 mx-auto text-slate-200 mb-3" />
-                <p className="text-slate-400 font-medium text-sm">Belum ada transaksi hari ini.</p>
-              </div>
-            ) : (
-              transactions?.map((trx: any) => (
-                <div 
-                  key={trx.id} 
-                  className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden flex items-stretch gap-4 group hover:border-blue-200 active:scale-[0.98] active:bg-slate-50 transition-all duration-200"
-                >
+              <div className="p-6">
+                <form action={addIncome} className="space-y-6">
                   
-                  <div className="flex-1 flex flex-col justify-center">
-                    <div className="flex justify-between items-start mb-1">
-                      <div>
-                        <h4 className="font-bold text-slate-800 text-base leading-tight">
-                          {trx.products?.name}
-                        </h4>
-                        <div className="flex items-center gap-2 mt-1.5 text-xs text-slate-500 font-medium">
-                          <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[11px] font-bold border border-blue-100">
-                            x{trx.quantity} Pcs
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Store className="w-3 h-3" /> {trx.outlets?.name}
-                          </span>
+                  {/* Field Lokasi Warung */}
+                  <div className="space-y-2 group">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Lokasi Warung</label>
+                    <div className="relative transition-all duration-300 focus-within:-translate-y-1">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                        <Store className="w-5 h-5" />
+                      </div>
+                      <select 
+                        name="outlet_id" 
+                        required 
+                        className="w-full pl-12 pr-10 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 outline-none transition-all text-sm font-medium text-slate-800 cursor-pointer hover:bg-white hover:border-blue-300 appearance-none"
+                      >
+                        <option value="">Pilih Warung...</option>
+                        {outlets?.map(o => (
+                          <option key={o.id} value={o.id}>{o.name}</option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                        <ChevronDown className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Field Produk */}
+                    <div className="md:col-span-2 space-y-2 group">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Produk</label>
+                      <div className="relative transition-all duration-300 focus-within:-translate-y-1">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                          <Package className="w-5 h-5" />
+                        </div>
+                        <select 
+                          name="product_id" 
+                          required 
+                          className="w-full pl-12 pr-10 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 outline-none transition-all text-sm font-medium text-slate-800 cursor-pointer hover:bg-white hover:border-blue-300 appearance-none"
+                        >
+                          <option value="">Pilih Produk...</option>
+                          {products?.map(p => (
+                            <option key={p.id} value={p.id}>{p.name}</option>
+                          ))}
+                        </select>
+                        <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                          <Search className="w-4 h-4" />
                         </div>
                       </div>
-                      
-                      <div className="text-right">
-                         <span className="block font-bold text-green-600 text-base">
-                          +Rp {trx.total_amount.toLocaleString('id-ID')}
-                        </span>
-                        <span className="text-[10px] text-slate-400 flex items-center justify-end gap-1 mt-1">
-                          <Calendar className="w-3 h-3" />
-                          {new Date(trx.created_at).toLocaleDateString('id-ID', {
-                            day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
-                          })}
-                        </span>
+                    </div>
+
+                    {/* Field Jumlah */}
+                    <div className="space-y-2 group">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Jumlah</label>
+                      <div className="relative transition-all duration-300 focus-within:-translate-y-1">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                          <Calculator className="w-5 h-5" />
+                        </div>
+                        <input 
+                          name="quantity" 
+                          type="number" 
+                          min="1" 
+                          placeholder="0" 
+                          required 
+                          className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 outline-none transition-all placeholder-slate-400 text-sm font-bold text-slate-800 hover:bg-white hover:border-blue-300 text-right"
+                        />
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center border-l border-slate-100 pl-3">
-                    <form action={deleteTransaction.bind(null, trx.id)}>
-                      <button 
-                        type="submit"
-                        className="w-10 h-10 flex items-center justify-center bg-slate-50 text-slate-400 rounded-xl hover:bg-red-500 hover:text-white transition-colors border border-slate-200 hover:border-red-500"
-                        title="Hapus Data"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </form>
-                  </div>
+                  <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 transform hover:scale-[1.01] active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 group">
+                    <Save className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                    Simpan Laporan
+                  </button>
+                </form>
+              </div>
+            </div>
+          </section>
 
+          {/* KOLOM KANAN: RIWAYAT (Dibuat Full Height seperti Master Data) */}
+          <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden h-fit">
+            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+              <h2 className="text-lg font-bold flex items-center gap-2 text-slate-800">
+                <History className="w-5 h-5 text-slate-400" />
+                Riwayat Terakhir
+              </h2>
+              <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-full border border-blue-100">
+                10 Data
+              </span>
+            </div>
+
+            <div className="p-4 space-y-3 max-h-150 overflow-y-auto custom-scrollbar">
+              {transactions?.length === 0 ? (
+                <div className="text-center py-12">
+                  <Package className="w-12 h-12 mx-auto text-slate-200 mb-3" />
+                  <p className="text-slate-400 font-medium">Belum ada transaksi hari ini.</p>
                 </div>
-              ))
-            )}
-          </div>
-        </div>
+              ) : (
+                transactions?.map((trx: any) => (
+                  <div key={trx.id} className="bg-white rounded-xl p-3 shadow-sm border border-slate-100 hover:border-blue-300 transition-all duration-200 group flex flex-col sm:flex-row sm:items-center justify-between gap-3 active:scale-[0.99]">
+                    
+                    {/* Info Kiri */}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-100 shrink-0">
+                          x{trx.quantity}
+                        </span>
+                        <h3 className="font-bold text-slate-800 text-sm">{trx.products?.name}</h3>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-slate-500 text-xs font-medium ml-1">
+                        <Store className="w-3 h-3 opacity-70" />
+                        <span>{trx.outlets?.name}</span>
+                      </div>
+                    </div>
 
-      </div>
+                    {/* Info Kanan & Hapus */}
+                    <div className="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 border-slate-50 pt-2 sm:pt-0">
+                      <div className="text-right">
+                        <div className="text-emerald-600 font-bold text-sm font-mono">
+                          +Rp {trx.total_amount.toLocaleString('id-ID')}
+                        </div>
+                        <div className="text-slate-400 text-[10px] flex items-center justify-end gap-1 font-medium">
+                          {new Date(trx.created_at).toLocaleDateString('id-ID', {
+                            day: 'numeric', month: 'short'
+                          })}
+                        </div>
+                      </div>
+
+                      <form action={deleteTransaction.bind(null, trx.id)}>
+                        <button 
+                          className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"
+                          title="Hapus Data"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </form>
+                    </div>
+
+                  </div>
+                ))
+              )}
+            </div>
+          </section>
+
+        </div>
+      </main>
     </div>
   )
 }
