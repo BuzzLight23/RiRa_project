@@ -193,7 +193,7 @@ export default async function MasterPage() {
                         <span className="font-bold text-gray-800 text-sm">{outlet.name}</span>
                       </div>
                       
-                      {/* Tombol Hapus Aman */}
+                      {/* Tombol Hapus */}
                       <form action={deleteItem.bind(null, outlet.id, 'outlets')}>
                         <button className="w-10 h-10 flex items-center justify-center bg-gray-50 text-gray-400 rounded-xl hover:bg-red-500 hover:text-white transition-colors border border-gray-200 hover:border-red-500">
                           <Trash2 className="w-5 h-5" />

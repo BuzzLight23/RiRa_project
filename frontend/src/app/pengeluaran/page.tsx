@@ -16,7 +16,7 @@ export default async function ExpensePage() {
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
       
-      {/* HEADER FIXED */}
+      {/* HEADER */}
       <div className="bg-white border-b sticky top-0 z-20 shadow-sm">
         <div className="max-w-xl mx-auto px-4 py-4 flex items-center gap-3">
           {/* Tombol Kembali */}

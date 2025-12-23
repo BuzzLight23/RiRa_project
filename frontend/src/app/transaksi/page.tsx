@@ -107,7 +107,7 @@ export default async function TransactionPage() {
           </div>
         </div>
 
-        {/* === DAFTAR RIWAYAT (Fixed) === */}
+        {/* === DAFTAR RIWAYAT === */}
         <div>
           <h3 className="flex items-center gap-2 font-bold text-gray-800 mb-5 px-1 text-lg">
             <History className="w-5 h-5 text-gray-500" /> Riwayat Terakhir
@@ -154,7 +154,7 @@ export default async function TransactionPage() {
                     </div>
                   </div>
 
-                  {/* Bagian Kanan: Tombol Hapus Aman */}
+                  {/* Bagian Kanan: Tombol Hapus */}
                   <div className="flex items-center border-l border-gray-100 pl-3">
                     <form action={deleteTransaction.bind(null, trx.id)}>
                       <button 
