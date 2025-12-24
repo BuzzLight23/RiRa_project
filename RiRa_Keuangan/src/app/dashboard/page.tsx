@@ -122,7 +122,7 @@ export default async function DashboardPage({
           {/* CARDS */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 print:grid-cols-3">
             
-            {/* Card Pemasukan (UPDATE: border-emerald-200) */}
+            {/* Card Pemasukan */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-emerald-200 flex flex-col justify-between hover:shadow-md transition-all active:scale-[0.99] print:border-2">
               <div className="flex items-start justify-between mb-4">
                 <div className="p-3 rounded-lg bg-emerald-50 text-emerald-600"><Wallet className="w-6 h-6" /></div>
@@ -134,7 +134,7 @@ export default async function DashboardPage({
               </div>
             </div>
 
-            {/* Card Pengeluaran (UPDATE: border-rose-200) */}
+            {/* Card Pengeluaran */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-rose-200 flex flex-col justify-between hover:shadow-md transition-all active:scale-[0.99] print:border-2">
               <div className="flex items-start justify-between mb-4">
                 <div className="p-3 rounded-lg bg-rose-50 text-rose-600"><TrendingDown className="w-6 h-6" /></div>
@@ -146,7 +146,7 @@ export default async function DashboardPage({
               </div>
             </div>
 
-            {/* Card Keuntungan (Tetap Dinamis: Biru/Orange) */}
+            {/* Card Keuntungan */}
             <div className={`bg-white rounded-xl p-6 shadow-sm border flex flex-col justify-between hover:shadow-md transition-all active:scale-[0.99] print:border-2 ${netProfit >= 0 ? 'border-blue-200' : 'border-orange-200'}`}>
               <div className="flex items-start justify-between mb-4">
                 <div className={`p-3 rounded-lg ${netProfit >= 0 ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}><DollarSign className="w-6 h-6" /></div>

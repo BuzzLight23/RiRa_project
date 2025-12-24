@@ -6,7 +6,7 @@ import Link from 'next/link'
 export default async function ExpensePage() {
   const supabase = await createClient()
 
-  // Ambil Riwayat Pengeluaran (Limit 10 agar pas di layar)
+  // Ambil Riwayat Pengeluaran
   const { data: expenses } = await supabase
     .from('expense_transactions')
     .select('*')
@@ -16,7 +16,7 @@ export default async function ExpensePage() {
   return (
     <div className="min-h-screen bg-slate-50 pb-24 font-sans text-slate-900">
       
-      {/* === HEADER (Navy Blue) === */}
+      {/* === HEADER === */}
       <div className="bg-slate-900 text-white shadow-md sticky top-0 z-50 border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-4">
           <Link href="/dashboard" className="p-2 -ml-2 rounded-full hover:bg-slate-800 transition-colors text-slate-400 hover:text-white">

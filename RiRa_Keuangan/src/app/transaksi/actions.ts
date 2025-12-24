@@ -13,7 +13,7 @@ export async function addIncome(formData: FormData) {
 
   if (!outlet_id || !product_id || !quantity) return
 
-  // 2. Cek Harga Produk saat ini (biar akurat)
+  // 2. Cek Harga Produk
   const { data: product } = await supabase
     .from('products')
     .select('price')

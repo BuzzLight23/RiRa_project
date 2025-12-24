@@ -5,7 +5,6 @@ import { login } from '@/app/actions'
 import { useState } from 'react'
 import { Eye, EyeOff, Lock, Mail, LayoutDashboard, DollarSign, Moon, Sun } from 'lucide-react'
 
-// State awal
 const initialState = {
   error: '',
 }

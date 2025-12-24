@@ -13,7 +13,7 @@ export default async function MasterPage() {
   return (
     <div className="min-h-screen bg-slate-50 pb-24 font-sans text-slate-900">
       
-      {/* === HEADER (Navy Theme) === */}
+      {/* === HEADER === */}
       <nav className="bg-slate-900 text-white shadow-md sticky top-0 z-50 border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -42,7 +42,7 @@ export default async function MasterPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
-          {/* === KOLOM 1: PRODUK (Blue Theme) === */}
+          {/* === KOLOM 1: PRODUK === */}
           <div className="space-y-6">
             
             {/* Form Produk */}
@@ -138,7 +138,7 @@ export default async function MasterPage() {
             </section>
           </div>
 
-          {/* === KOLOM 2: WARUNG (Green Theme) === */}
+          {/* === KOLOM 2: WARUNG === */}
           <div className="space-y-6">
             
             {/* Form Warung */}
@@ -167,7 +167,7 @@ export default async function MasterPage() {
                     </div>
                   </div>
 
-                  {/* Input Alamat (BARU) */}
+                  {/* Input Alamat */}
                   <div className="space-y-2">
                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">Alamat Lokasi</label>
                     <div className="relative group">

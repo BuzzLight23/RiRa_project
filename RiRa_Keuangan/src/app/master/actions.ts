@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-// ... logic addProduct tetap sama ...
+// ... logic addProduct ...
 export async function addProduct(formData: FormData) {
   const supabase = await createClient()
   const name = formData.get('name') as string
