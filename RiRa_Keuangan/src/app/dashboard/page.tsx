@@ -1,4 +1,5 @@
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 import { getDateRange, Period } from '@/lib/dateRange'
 import Link from 'next/link'
 import { 
@@ -15,19 +16,34 @@ import {
 } from 'lucide-react'
 import DownloadReport from '@/components/DownloadReport'
 import DateFilter from '@/components/DateFilter'
+import UserNav from '@/components/UserNav'
 
 export default async function DashboardPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  const supabase = await createClient()
+  const cookieStore = await cookies()
   
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+      },
+    }
+  )
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  // 2. LOGIKA PERIODE & TANGGAL
   const params = await searchParams
   const period = (params.dashboardperiode as Period) || 'daily'
   const specificDate = params.date as string | undefined
 
-  // LOGIC PENENTUAN WAKTU
   let start, end;
 
   if (specificDate) {
@@ -40,7 +56,7 @@ export default async function DashboardPage({
     end = range.end;
   }
 
-  // QUERY DATABASE
+  // 3. QUERY DATABASE
   let incomeQuery = supabase.from('income_transactions').select(`id, created_at, quantity, total_amount, products (name), outlets (name)`).order('created_at', { ascending: false })
   let expenseQuery = supabase.from('expense_transactions').select('*').order('created_at', { ascending: false })
 
@@ -61,28 +77,38 @@ export default async function DashboardPage({
   return (
     <div className="min-h-screen bg-slate-50 pb-20 print:bg-white flex flex-col font-sans text-slate-800">
       
-      {/* HEADER */}
+      {/* HEADER UTAMA */}
       <header className="bg-slate-900 text-white px-6 py-4 shadow-md z-20 print:hidden border-b border-slate-800">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          
+          {/* Logo & Judul */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center text-slate-900 shadow-lg shadow-yellow-400/20">
               <LayoutDashboard className="w-6 h-6" />
             </div>
             <h1 className="text-xl font-bold tracking-tight text-white">Dashboard RiRa</h1>
           </div>
+
+          {/* Menu Navigasi & Profil */}
           <div className="flex flex-wrap items-center justify-center gap-3">
+            
             <Link href="/master" className="flex items-center gap-2 px-4 py-2 rounded-lg border border-yellow-400/40 text-yellow-400 hover:bg-yellow-400/10 transition-colors text-sm font-medium active:scale-95">
               <Database className="w-4 h-4" />
               <span>Master Data</span>
             </Link>
+            
             <Link href="/transaksi" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors shadow-lg shadow-blue-600/20 text-sm font-medium active:scale-95 border border-transparent">
               <Wallet className="w-4 h-4" />
               <span>Input Jual</span>
             </Link>
+            
             <Link href="/pengeluaran" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white transition-colors shadow-lg shadow-red-600/20 text-sm font-medium active:scale-95 border border-transparent">
               <TrendingDown className="w-4 h-4" />
               <span>Input Keluar</span>
             </Link>
+            <div className="h-8 w-px bg-slate-700 mx-1 hidden sm:block"></div>
+            <UserNav user={user} />
+
           </div>
         </div>
       </header>
@@ -119,7 +145,7 @@ export default async function DashboardPage({
              </div>
           )}
 
-          {/* CARDS */}
+          {/* KARTU RINGKASAN */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 print:grid-cols-3">
             
             {/* Card Pemasukan */}
