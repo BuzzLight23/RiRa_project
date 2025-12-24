@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { addIncome, deleteTransaction } from './actions'
-import { Wallet, Store, Package, Calculator, Save, Trash2, History, ArrowLeft, Search, ChevronDown } from 'lucide-react'
+import { Wallet, Store, Package, Calculator, Save, Trash2, History, ArrowLeft, Search } from 'lucide-react'
 import Link from 'next/link'
+import OutletPicker from '@/components/OutletPicker' // 👈 Import komponen baru disini
 
 export default async function TransactionPage() {
   const supabase = await createClient()
@@ -51,31 +52,9 @@ export default async function TransactionPage() {
               <div className="p-6">
                 <form action={addIncome} className="space-y-6">
                   
-                  {/* Field Lokasi Warung */}
-                  <div className="space-y-2 group">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1 transition-colors group-focus-within:text-blue-600">
-                      Lokasi Warung
-                    </label>
-                    <div className="relative">
-                      {/* Animasi Ikon: Scale & Color saat fokus */}
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 transition-all duration-300 group-focus-within:text-blue-600 group-focus-within:scale-110">
-                        <Store className="w-5 h-5" />
-                      </div>
-                      <select 
-                        name="outlet_id" 
-                        required 
-                        className="w-full pl-12 pr-10 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all duration-300 text-sm font-medium text-slate-800 cursor-pointer appearance-none"
-                      >
-                        <option value="">Pilih Warung...</option>
-                        {outlets?.map(o => (
-                          <option key={o.id} value={o.id}>{o.name}</option>
-                        ))}
-                      </select>
-                      <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
-                        <ChevronDown className="w-4 h-4" />
-                      </div>
-                    </div>
-                  </div>
+                  {/* Field Lokasi Warung (YANG BARU) */}
+                  {/* Kita ganti select manual tadi dengan komponen pintar ini */}
+                  <OutletPicker outlets={outlets || []} />
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Field Produk */}
