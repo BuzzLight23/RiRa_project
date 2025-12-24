@@ -1,20 +1,27 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { Calendar as CalendarIcon } from 'lucide-react'
 
 export default function DateFilter() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const pathname = usePathname() 
+  
   const currentDate = searchParams.get('date') || ''
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value
+    
+    const params = new URLSearchParams(searchParams)
+    
     if (date) {
-      router.push(`/dashboard?date=${date}`)
+      params.set('date', date)
     } else {
-      router.push('/dashboard')
+      params.delete('date')
     }
+
+    router.replace(`${pathname}?${params.toString()}`)
   }
 
   return (
