@@ -19,7 +19,7 @@ export default async function MasterPage() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
               {/* Tombol Kembali */}
-              <Link href="/" className="text-slate-400 hover:text-white transition-colors p-2 -ml-2 rounded-full hover:bg-slate-800">
+              <Link href="/dashboard" className="text-slate-400 hover:text-white transition-colors p-2 -ml-2 rounded-full hover:bg-slate-800">
                 <ArrowLeft className="w-6 h-6" />
               </Link>
               

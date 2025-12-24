@@ -24,7 +24,7 @@ export default async function DashboardPage({
   const supabase = await createClient()
   
   const params = await searchParams
-  const period = (params.periode as Period) || 'daily'
+  const period = (params.dashboardperiode as Period) || 'daily'
   const specificDate = params.date as string | undefined
 
   // LOGIC PENENTUAN WAKTU
@@ -96,7 +96,7 @@ export default async function DashboardPage({
             </div>
             <div className="flex items-center bg-slate-100 rounded-lg p-1 overflow-x-auto no-scrollbar border border-slate-200">
               {[{ label: 'Hari Ini', val: 'daily' }, { label: 'Minggu Ini', val: 'weekly' }, { label: 'Bulan Ini', val: 'monthly' }, { label: 'Semua', val: 'all' }].map((tab) => (
-                <Link key={tab.val} href={`/?periode=${tab.val}`} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all whitespace-nowrap active:scale-95 ${!specificDate && period === tab.val ? 'bg-yellow-400 text-slate-900 shadow-sm font-bold' : 'text-slate-500 hover:bg-white hover:text-slate-800'}`}>
+                <Link key={tab.val} href={`/?dashboardperiode=${tab.val}`} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all whitespace-nowrap active:scale-95 ${!specificDate && period === tab.val ? 'bg-yellow-400 text-slate-900 shadow-sm font-bold' : 'text-slate-500 hover:bg-white hover:text-slate-800'}`}>
                   {tab.label}
                 </Link>
               ))}

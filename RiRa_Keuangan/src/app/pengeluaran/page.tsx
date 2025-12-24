@@ -19,7 +19,7 @@ export default async function ExpensePage() {
       {/* === HEADER (Navy Blue) === */}
       <div className="bg-slate-900 text-white shadow-md sticky top-0 z-50 border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-4">
-          <Link href="/" className="p-2 -ml-2 rounded-full hover:bg-slate-800 transition-colors text-slate-400 hover:text-white">
+          <Link href="/dashboard" className="p-2 -ml-2 rounded-full hover:bg-slate-800 transition-colors text-slate-400 hover:text-white">
             <ArrowLeft className="w-6 h-6" />
           </Link>
 

@@ -11,9 +11,9 @@ export default function DateFilter() {
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value
     if (date) {
-      router.push(`/?date=${date}`)
+      router.push(`/dashboard?date=${date}`)
     } else {
-      router.push('/')
+      router.push('/dashboard')
     }
   }
 
