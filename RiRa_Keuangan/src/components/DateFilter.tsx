@@ -11,7 +11,6 @@ export default function DateFilter() {
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value
     if (date) {
-      // Jika user pilih tanggal, arahkan ke URL ?date=YYYY-MM-DD
       router.push(`/?date=${date}`)
     } else {
       router.push('/')
